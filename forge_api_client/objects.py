@@ -10,7 +10,7 @@ class Objects:
         headers = {
             'Authorization': '%s %s' % (self.token_type, self.access_token),
             'Content-Type': 'application/octet-stream',
-            'Content-Length': os.path.getsize(fpath)
+            'Content-Length': str(os.path.getsize(fpath))
         }
 
         return put_request(url, fpath, headers)

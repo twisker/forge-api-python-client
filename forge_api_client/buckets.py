@@ -1,4 +1,5 @@
 from .utils import get_request, post_request
+import json
 
 class Buckets:
 
@@ -23,7 +24,7 @@ class Buckets:
 
         return get_request(url, headers)
 
-    def createBucket(self, bucket_key, allow, policy_key):
+    def createBucket(self, bucket_key, policy_key="transient", allow=None):
 
         url = 'https://developer.api.autodesk.com/oss/v2/buckets'
 
@@ -32,10 +33,16 @@ class Buckets:
             'Content-Type': 'application/json'
         }
 
-        data = {
-            'bucketKey': bucket_key,
-            'allow': allow,
-            'policy_key': policy_key
-        }
+        if allow is not None:
+            data = {
+                'bucketKey': bucket_key,
+                'allow': allow,
+                'policyKey': policy_key
+            }
+        else:
+            data = {
+                'bucketKey': bucket_key,
+                'policyKey': policy_key
+            }
 
-        return post_request(url, data, headers)
+        return post_request(url, json.dumps(data), headers)
